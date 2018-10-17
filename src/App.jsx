@@ -7,7 +7,7 @@ import { loadCourses } from './actions/courses';
 import { loadAuthors } from './actions/authors';
 
 import {
-  Home, About, Nav, Courses, ManageCourse,
+  Home, About, Nav, Courses, ManageCourse, Authors,
 } from './components';
 
 const store = configureStore();
@@ -23,6 +23,7 @@ export default () => (
           <Route path="/about" component={About} />
           <Route path="/courses/:id" component={ManageCourse} />
           <Route path="/courses" component={Courses} />
+          <Route path="/authors" component={Authors} />
           <Route path="/" component={Home} />
         </Switch>
       </Fragment>

@@ -10,6 +10,8 @@ export default connect(state => ({ loading: state.apiCallsInProgressCount > 0 })
     {' | '}
     <NavLink to="/courses">Courses</NavLink>
     {' | '}
+    <NavLink to="/authors">Authors</NavLink>
+    {' | '}
     <NavLink to="/about">About</NavLink>
     {loading && <LoadingDots interval={100} dots={20} />}
   </nav>
