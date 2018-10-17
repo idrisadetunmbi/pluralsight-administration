@@ -8,7 +8,8 @@ import AuthorsList from './AuthorsList';
 
 class Authors extends Component {
   redirectToAddAuthorPage = () => {
-
+    const { history } = this.props;
+    history.push('/authors/create');
   }
 
   render() {
@@ -33,6 +34,7 @@ class Authors extends Component {
 Authors.propTypes = {
   authors: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   courses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  history: PropTypes.shape().isRequired,
 };
 
 export default connect(
