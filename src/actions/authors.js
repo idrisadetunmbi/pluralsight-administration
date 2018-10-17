@@ -17,3 +17,10 @@ export const saveAuthor = author => async (dispatch) => {
   };
   dispatch(action);
 };
+
+export const deleteAuthor = id => async (dispatch) => {
+  dispatch(addApiCallInProgress());
+  await AuthorApi.deleteAuthor(id);
+  dispatch({ type: types.DELETE_AUTHOR_SUCCESS });
+  dispatch(loadAuthors());
+};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Author from './Author';
 
-const AuthorsList = ({ authors, courses }) => (
+const AuthorsList = ({ authors, courses, deleteAuthor }) => (
   <table className="table">
     <thead>
       <tr>
@@ -21,6 +21,7 @@ const AuthorsList = ({ authors, courses }) => (
             key={author.id}
             author={author}
             noOfCourses={courses.filter(course => course.authorId === author.id).length}
+            deleteAuthor={deleteAuthor}
           />
         ))
       }
@@ -31,6 +32,7 @@ const AuthorsList = ({ authors, courses }) => (
 AuthorsList.propTypes = {
   authors: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   courses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  deleteAuthor: PropTypes.func.isRequired,
 };
 
 export default AuthorsList;
