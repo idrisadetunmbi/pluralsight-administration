@@ -21,6 +21,7 @@ export default () => (
         <Route component={Nav} />
         <Switch>
           <Route path="/about" component={About} />
+          <Route path="/courses/create" component={ManageCourse} />
           <Route path="/courses/:id" component={ManageCourse} />
           <Route path="/courses" component={Courses} />
           <Route path="/authors/create" component={ManageAuthor} />
