@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Course from './Course';
 
-const CoursesList = ({ courses }) => (
+const CoursesList = ({ courses, deleteCourse }) => (
   <table className="table">
     <thead>
       <tr>
@@ -12,11 +12,18 @@ const CoursesList = ({ courses }) => (
         <th>Author</th>
         <th>Category</th>
         <th>Length</th>
+        <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       {
-        courses.map(course => <Course key={course.id} course={course} />)
+        courses.map(course => (
+          <Course
+            key={course.id}
+            course={course}
+            deleteCourse={deleteCourse}
+          />
+        ))
       }
     </tbody>
   </table>
@@ -24,6 +31,7 @@ const CoursesList = ({ courses }) => (
 
 CoursesList.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  deleteCourse: PropTypes.func.isRequired,
 };
 
 export default CoursesList;

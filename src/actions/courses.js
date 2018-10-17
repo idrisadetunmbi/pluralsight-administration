@@ -17,3 +17,10 @@ export const saveCourse = course => async (dispatch) => {
   };
   dispatch(action);
 };
+
+export const deleteCourse = id => async (dispatch) => {
+  dispatch(addApiCallInProgress());
+  await courseApi.deleteCourse(id);
+  dispatch({ type: actionTypes.DELETE_COURSE_SUCCESS });
+  dispatch(loadCourses());
+};
