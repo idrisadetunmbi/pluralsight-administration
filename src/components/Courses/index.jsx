@@ -11,6 +11,11 @@ class Courses extends Component {
 
   }
 
+  deleteCourse = (id) => {
+    const { deleteCourse } = this.props;
+    deleteCourse(id);
+  }
+
   render() {
     const { courses } = this.props;
 
@@ -24,7 +29,7 @@ class Courses extends Component {
           onClick={this.redirectToAddCoursePage}
           style={{ marginBottom: '1rem' }}
         />
-        <CoursesList courses={courses} />
+        <CoursesList courses={courses} deleteCourse={this.deleteCourse} />
       </div>
     );
   }
@@ -32,6 +37,7 @@ class Courses extends Component {
 
 Courses.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  deleteCourse: PropTypes.func.isRequired,
 };
 
 export default connect(
