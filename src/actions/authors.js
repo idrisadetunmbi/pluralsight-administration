@@ -8,6 +8,19 @@ export const loadAuthors = () => async (dispatch) => {
   dispatch({ type: types.LOAD_AUTHOR_SUCCESS, authors });
 };
 
-export const todo = () => {
-  // todo:
+export const saveAuthor = author => async (dispatch) => {
+  dispatch(addApiCallInProgress());
+  const savedAuthor = await AuthorApi.saveAuthor(author);
+  const action = {
+    type: author.id ? types.UPDATE_AUTHOR_SUCCESS : types.CREATE_AUTHOR_SUCCESS,
+    author: savedAuthor,
+  };
+  dispatch(action);
+};
+
+export const deleteAuthor = id => async (dispatch) => {
+  dispatch(addApiCallInProgress());
+  await AuthorApi.deleteAuthor(id);
+  dispatch({ type: types.DELETE_AUTHOR_SUCCESS });
+  dispatch(loadAuthors());
 };
