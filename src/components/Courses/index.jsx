@@ -8,7 +8,8 @@ import CoursesList from './CourseList';
 
 class Courses extends Component {
   redirectToAddCoursePage = () => {
-
+    const { history } = this.props;
+    history.push('/courses/create');
   }
 
   deleteCourse = (id) => {
@@ -38,6 +39,7 @@ class Courses extends Component {
 Courses.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   deleteCourse: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
 };
 
 export default connect(
