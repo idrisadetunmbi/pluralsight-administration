@@ -30,7 +30,11 @@ class Courses extends Component {
           onClick={this.redirectToAddCoursePage}
           style={{ marginBottom: '1rem' }}
         />
-        <CoursesList courses={courses} deleteCourse={this.deleteCourse} />
+        {
+          courses.length === 0
+            ? <p className="font-weight-bold">There are currently no courses available</p>
+            : <CoursesList courses={courses} deleteCourse={this.deleteCourse} />
+        }
       </div>
     );
   }
