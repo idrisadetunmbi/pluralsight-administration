@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import _ from 'underscore';
 import PropTypes from 'prop-types';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Prompt } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../../actions/courses';
@@ -66,16 +68,28 @@ class ManageCourse extends Component {
 
   render() {
     const { errors, course, saving } = this.state;
-    const { authors } = this.props;
+    const { authors, course: propsCourse } = this.props;
     return (
-      <CourseForm
-        errors={errors}
-        allAuthors={authors}
-        course={course}
-        onChange={this.updateCourseState}
-        onSave={this.saveCourse}
-        loading={saving}
-      />
+      <Fragment>
+        <Prompt
+          message={() => {
+            if (Object.values(course).every(field => !field)) return true;
+            if (!_.isEqual(course, propsCourse)) {
+              return 'You have unsaved changes, are you sure you want to leave?';
+            }
+            return true;
+          }
+          }
+        />
+        <CourseForm
+          errors={errors}
+          allAuthors={authors}
+          course={course}
+          onChange={this.updateCourseState}
+          onSave={this.saveCourse}
+          loading={saving}
+        />
+      </Fragment>
     );
   }
 }
