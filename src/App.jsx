@@ -7,7 +7,7 @@ import { loadCourses } from './actions/courses';
 import { loadAuthors } from './actions/authors';
 
 import {
-  Home, About, Nav, Courses, ManageCourse, Authors, ManageAuthor,
+  Home, About, Nav, Courses, ManageCourse, Authors, ManageAuthor, NoMatch,
 } from './components';
 
 const store = configureStore();
@@ -27,7 +27,8 @@ export default () => (
           <Route path="/authors/create" component={ManageAuthor} />
           <Route path="/authors/:id" component={ManageAuthor} />
           <Route path="/authors" component={Authors} />
-          <Route path="/" component={Home} />
+          <Route path="/" exact component={Home} />
+          <Route component={NoMatch} />
         </Switch>
       </Fragment>
     </BrowserRouter>
