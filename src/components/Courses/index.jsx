@@ -48,7 +48,7 @@ Courses.propTypes = {
 
 export default connect(
   state => ({
-    courses: state.courses,
+    courses: state.courses.sort((a, b) => a.title > b.title),
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )(Courses);
