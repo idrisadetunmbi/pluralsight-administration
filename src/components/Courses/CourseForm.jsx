@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { TextInput, SelectInput } from '../common';
 
 const CourseForm = ({
-  course, allAuthors, onSave, onChange, loading, errors,
+  course, allAuthors, onSave, onChange, loading, errors, onBlur,
 }) => (
   <form>
     <h1>Manage Course</h1>
@@ -14,6 +14,7 @@ const CourseForm = ({
       value={course.title}
       onChange={onChange}
       error={errors.title}
+      onBlur={onBlur}
     />
 
     <SelectInput
@@ -24,6 +25,7 @@ const CourseForm = ({
       options={allAuthors}
       onChange={onChange}
       error={errors.authorId}
+      onBlur={onBlur}
     />
 
     <TextInput
@@ -32,6 +34,7 @@ const CourseForm = ({
       value={course.category}
       onChange={onChange}
       error={errors.category}
+      onBlur={onBlur}
     />
 
     <TextInput
@@ -40,6 +43,7 @@ const CourseForm = ({
       value={course.length}
       onChange={onChange}
       error={errors.length}
+      onBlur={onBlur}
     />
 
     <input
@@ -48,6 +52,7 @@ const CourseForm = ({
       value={loading ? 'Saving...' : 'Save'}
       className="btn btn-primary"
       onClick={onSave}
+      onBlur={onBlur}
     />
   </form>
 );
@@ -59,6 +64,7 @@ CourseForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.shape().isRequired,
+  onBlur: PropTypes.func.isRequired,
 };
 
 export default CourseForm;
