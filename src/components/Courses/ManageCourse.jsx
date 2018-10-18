@@ -31,30 +31,56 @@ class ManageCourse extends Component {
   }
 
   updateCourseState = (event) => {
-    const { course } = this.state;
-    this.setState({
+    const { name, value } = event.target;
+    this.setState(prevState => ({
+      errors: { ...prevState.errors, [name]: '' },
       course: {
-        ...course, [event.target.name]: event.target.value,
+        ...prevState.course, [name]: value,
       },
-    });
+    }));
   }
 
-  courseFormIsValid = () => {
-    let formIsValid = true;
-    const errors = {};
-    const { course: { title } } = this.state;
-    if (title.length < 5) {
-      errors.title = 'Title must be at least 5 characters.';
-      formIsValid = false;
+  onBlurFormInput = (event) => {
+    const { name } = event.target;
+    const value = event.target.value.trim();
+    switch (name) {
+      case 'title':
+      case 'category':
+        if (value.length < 5) {
+          this.setState(prevState => ({
+            errors: {
+              ...prevState.errors, [name]: `${name} must be at least 5 characters.`,
+            },
+          }));
+        }
+        break;
+      case 'authorId':
+        if (!value.length) {
+          this.setState(prevState => ({
+            errors: {
+              ...prevState.errors, [name]: 'Please choose an author',
+            },
+          }));
+        }
+        break;
+      case 'length':
+        if (!value.length) {
+          this.setState(prevState => ({
+            errors: {
+              ...prevState.errors, [name]: 'Please enter a valid course length',
+            },
+          }));
+        }
+        break;
+      default:
+        break;
     }
-    this.setState({ errors });
-    return formIsValid;
   }
 
   saveCourse = (event) => {
     event.preventDefault();
-
-    if (!this.courseFormIsValid()) return;
+    const { errors } = this.state;
+    if (!Object.values(errors).every(field => !field)) return;
 
     this.setState({ saving: true });
     const { saveCourse, history } = this.props;
@@ -86,6 +112,7 @@ class ManageCourse extends Component {
           allAuthors={authors}
           course={course}
           onChange={this.updateCourseState}
+          onBlur={this.onBlurFormInput}
           onSave={this.saveCourse}
           loading={saving}
         />
