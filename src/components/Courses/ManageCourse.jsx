@@ -23,6 +23,7 @@ class ManageCourse extends Component {
     },
     saving: false,
     notFound: false,
+    hasUnsavedChanges: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -42,6 +43,7 @@ class ManageCourse extends Component {
       course: {
         ...prevState.course, [name]: value,
       },
+      hasUnsavedChanges: true,
     }));
   }
 
@@ -92,28 +94,22 @@ class ManageCourse extends Component {
     const { course } = this.state;
     saveCourse(course).then(() => {
       toastr.success('Course saved');
-      this.setState({ saving: false });
+      this.setState({ saving: false, hasUnsavedChanges: false });
       history.push('/courses');
     });
   }
 
   render() {
     const {
-      errors, course, saving, notFound,
+      errors, course, saving, notFound, hasUnsavedChanges,
     } = this.state;
-    const { authors, course: propsCourse } = this.props;
+    const { authors } = this.props;
     if (notFound) return (<NoMatch />);
     return (
       <Fragment>
         <Prompt
-          message={() => {
-            if (Object.values(course).every(field => !field)) return true;
-            if (!_.isEqual(course, propsCourse)) {
-              return 'You have unsaved changes, are you sure you want to leave?';
-            }
-            return true;
-          }
-          }
+          when={hasUnsavedChanges}
+          message="You have unsaved changes, are you sure you want to leave?"
         />
         <CourseForm
           errors={errors}
@@ -137,7 +133,10 @@ ManageCourse.propTypes = {
 
 export default connect(
   (state, ownProps) => ({
-    course: state.courses.find(course => course.id === ownProps.match.params.id),
+    course: ownProps.match.params.id
+      ? state.courses.find(course => course.id === ownProps.match.params.id)
+      : null,
+    courses: state.courses,
     authors: state.authors.map(author => ({
       value: author.id, text: `${author.firstName} ${author.lastName}`,
     })),
