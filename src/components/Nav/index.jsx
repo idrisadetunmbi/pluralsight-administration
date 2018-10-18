@@ -4,11 +4,18 @@ import { connect } from 'react-redux';
 
 import LoadingDots from '../common/Loading';
 
-export default connect(state => ({ loading: state.apiCallsInProgressCount > 0 }))(({ loading }) => (
+export default connect(state => ({
+  loading: state.apiCallsInProgressCount > 0,
+  courseCount: state.courses.length,
+}))(({ loading, courseCount }) => (
   <nav>
     <NavLink to="/">Home</NavLink>
     {' | '}
-    <NavLink to="/courses">Courses</NavLink>
+    <NavLink to="/courses">
+      Courses [
+      {courseCount}
+      ]
+    </NavLink>
     {' | '}
     <NavLink to="/authors">Authors</NavLink>
     {' | '}
