@@ -8,6 +8,7 @@ import toastr from 'toastr';
 
 import * as actions from '../../actions/courses';
 import CourseForm from './CourseForm';
+import NoMatch from '../404';
 
 class ManageCourse extends Component {
   state = {
@@ -21,11 +22,15 @@ class ManageCourse extends Component {
       category: '',
     },
     saving: false,
+    notFound: false,
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.course && props.course.id !== state.course.id) {
-      return { course: props.course };
+      return { course: props.course, notFound: false };
+    }
+    if (!props.course && props.match.params.id) {
+      return { notFound: true };
     }
     return null;
   }
@@ -93,8 +98,11 @@ class ManageCourse extends Component {
   }
 
   render() {
-    const { errors, course, saving } = this.state;
+    const {
+      errors, course, saving, notFound,
+    } = this.state;
     const { authors, course: propsCourse } = this.props;
+    if (notFound) return (<NoMatch />);
     return (
       <Fragment>
         <Prompt

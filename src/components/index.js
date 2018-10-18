@@ -5,3 +5,4 @@ export { default as Courses } from './Courses';
 export { default as ManageCourse } from './Courses/ManageCourse';
 export { default as Authors } from './Authors';
 export { default as ManageAuthor } from './Authors/ManageAuthor';
+export { default as NoMatch } from './404';
