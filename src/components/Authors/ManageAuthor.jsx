@@ -41,11 +41,11 @@ class ManageAuthor extends Component {
     const errors = {};
     const { author: { firstName, lastName } } = this.state;
     if (firstName.length < 3) {
-      errors.firstName = 'first name cannot be empty.';
+      errors.firstName = 'Please enter a valid input';
       formIsValid = false;
     }
     if (lastName.length < 3) {
-      errors.lastName = 'last name cannot be empty.';
+      errors.lastName = 'Please enter a valid input';
       formIsValid = false;
     }
     this.setState({ errors });
