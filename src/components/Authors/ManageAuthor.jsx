@@ -27,19 +27,25 @@ class ManageAuthor extends Component {
 
   updateAuthorState = (event) => {
     const { author } = this.state;
-    this.setState({
+    const { name, value } = event.target;
+    this.setState(prevState => ({
+      errors: { ...prevState.errors, [name]: null },
       author: {
-        ...author, [event.target.name]: event.target.value.trim(),
+        ...author, [name]: value.trim(),
       },
-    });
+    }));
   }
 
   authorFormIsValid = () => {
     let formIsValid = true;
     const errors = {};
-    const { author: { firstName } } = this.state;
+    const { author: { firstName, lastName } } = this.state;
     if (firstName.length < 3) {
       errors.firstName = 'first name cannot be empty.';
+      formIsValid = false;
+    }
+    if (lastName.length < 3) {
+      errors.lastName = 'last name cannot be empty.';
       formIsValid = false;
     }
     this.setState({ errors });

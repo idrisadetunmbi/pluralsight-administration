@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TextInput = ({
-  name, label, onChange, placeholder, value, error, onBlur,
+  name, label, onChange, placeholder, value, error,
 }) => {
   let wrapperClass = 'form-group';
   if (error && error.length > 0) wrapperClass += ' has-error';
@@ -18,7 +18,6 @@ const TextInput = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          onBlur={onBlur}
         />
         {error && <div className="alert alert-danger">{error}</div>}
       </div>
@@ -33,11 +32,6 @@ TextInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   error: PropTypes.string.isRequired,
-  onBlur: PropTypes.func,
-};
-
-TextInput.defaultProps = {
-  onBlur: null,
 };
 
 export default TextInput;

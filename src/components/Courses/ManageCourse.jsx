@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import PropTypes from 'prop-types';
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -9,6 +8,8 @@ import toastr from 'toastr';
 import * as actions from '../../actions/courses';
 import CourseForm from './CourseForm';
 import NoMatch from '../404';
+
+const courseLengthRegex = /^(([0-9]+)|([0-9]+:[0-5][0-9])|([0-9]+:[0-5][0-9]:[0-5][0-9]))$/;
 
 class ManageCourse extends Component {
   state = {
@@ -47,47 +48,23 @@ class ManageCourse extends Component {
     }));
   }
 
-  onBlurFormInput = (event) => {
-    const { name } = event.target;
-    const value = event.target.value.trim();
-    switch (name) {
-      case 'title':
-      case 'category':
-        if (value.length < 5) {
-          this.setState(prevState => ({
-            errors: {
-              ...prevState.errors, [name]: `${name} must be at least 5 characters.`,
-            },
-          }));
-        }
-        break;
-      case 'authorId':
-        if (!value.length) {
-          this.setState(prevState => ({
-            errors: {
-              ...prevState.errors, [name]: 'Please choose an author',
-            },
-          }));
-        }
-        break;
-      case 'length':
-        if (!value.length) {
-          this.setState(prevState => ({
-            errors: {
-              ...prevState.errors, [name]: 'Please enter a valid course length',
-            },
-          }));
-        }
-        break;
-      default:
-        break;
-    }
+  formInputsAreValid = () => {
+    const errors = {};
+    // eslint-disable-next-line
+    const { course: { title, authorId, length, category } } = this.state;
+    if (title.trim().length < 5) errors.title = 'Title must be at least 5 characters';
+    if (category.trim().length < 3) errors.category = 'Category must be at least 3 characters';
+    if (!authorId.trim()) errors.authorId = 'Please select an author';
+    if (!courseLengthRegex.test(length)) errors.length = 'Invalid course length';
+
+    this.setState(prevState => ({ errors: { ...prevState.errors, ...errors } }));
+    return !Object.keys(errors).length;
   }
 
   saveCourse = (event) => {
     event.preventDefault();
-    const { errors } = this.state;
-    if (!Object.values(errors).every(field => !field)) return;
+
+    if (!this.formInputsAreValid()) return;
 
     this.setState({ saving: true });
     const { saveCourse, history } = this.props;
@@ -116,7 +93,6 @@ class ManageCourse extends Component {
           allAuthors={authors}
           course={course}
           onChange={this.updateCourseState}
-          onBlur={this.onBlurFormInput}
           onSave={this.saveCourse}
           loading={saving}
         />
